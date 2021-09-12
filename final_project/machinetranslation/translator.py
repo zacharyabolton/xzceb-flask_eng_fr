@@ -1,7 +1,9 @@
+'''Functions for translating english to french and vice versa.'''
+
 import json
+import os
 from ibm_watson import LanguageTranslatorV3
 from ibm_cloud_sdk_core.authenticators import IAMAuthenticator
-import os
 from dotenv import load_dotenv
 
 load_dotenv()
@@ -9,30 +11,30 @@ load_dotenv()
 apikey = os.environ['apikey']
 url = os.environ['url']
 
-version_lt='2018-05-01'
+VERSION_LT='2018-05-01'
 
 authenticator = IAMAuthenticator(apikey)
 language_translator = LanguageTranslatorV3(
-    version=version_lt,
+    version=VERSION_LT,
     authenticator=authenticator
 )
 
 language_translator.set_service_url(url)
 
-def englishToFrench(englishText):
-    #write the code here
-    if englishText == "":
+def english_to_french(english_text):
+    '''Translates english text to french text.'''
+    if english_text == "":
         return ""
-    frenchTextDict = language_translator.translate(\
-        text=englishText, model_id='en-fr')
-    frenchText = frenchTextDict.get_result()['translations'][0]['translation']
-    return frenchText
+    french_text_dict = language_translator.translate(\
+        text=english_text, model_id='en-fr')
+    french_text = french_text_dict.get_result()['translations'][0]['translation']
+    return french_text
 
-def frenchToEnglish(frenchText):
-    #write the code here
-    if frenchText == "":
+def french_to_english(french_text):
+    '''Translates french text to english text.'''
+    if french_text == "":
         return ""
-    englishTextDict = language_translator.translate(\
-        text=frenchText, model_id='fr-en')
-    englishText = englishTextDict.get_result()['translations'][0]['translation']
-    return englishText
+    english_text_dict = language_translator.translate(\
+        text=french_text, model_id='fr-en')
+    english_text = english_text_dict.get_result()['translations'][0]['translation']
+    return english_text
